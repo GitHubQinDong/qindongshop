@@ -1,0 +1,15 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>添加商品类型</title>
+</head>
+<body>
+父类：<span th:text="${goodstype.typename}"></span>
+<form action="goodstypeInsert" method="post">
+    <input type="hidden" name="pid" th:value="${goodstype.id}" />
+    <input type="hidden" name="level" th:value="${goodstype.level+1}" />
+    产品类别名称：<input name="typename"/><br/>
+    产品类别描述：<input name="typedesc"/><br/>
+    <input type="submit" value="提交"/><br/>
+</form>
+</body>
+</html>

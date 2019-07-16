@@ -1,0 +1,21 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>商品类别列表</title>
+</head>
+<body>
+<table>
+    <tr>
+        <th>类别名称</th><th>类别描述</th><th>等级</th><th>操作</th>
+    </tr>
+    <tr th:each="type:${goodstypesList}">
+        <td th:text="${type.typename}"></td><td  th:text="${type.typedesc}"></td>
+        <td  th:text="${type.level}"></td>
+        <td>
+            <a href="#" th:href="@{/toGoodstypeInfo(id=${type.id})}">查看</a>
+            <a href="#" th:href="@{/toGoodstypeUpdate(id=${type.id})}">修改</a>
+            <a href="#" th:href="@{/delGoodstype(id=${type.id})}">删除</a>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

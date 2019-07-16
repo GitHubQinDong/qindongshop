@@ -1,0 +1,25 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>用户列表</title>
+</head>
+<body>
+<table>
+    <tr>
+        <th>姓名</th><th>用户名</th><th>手机号码</th><th>QQ</th><th>微信</th>
+        <th>email</th><th>地址</th><th>性别</th><th>生日时间</th><th>操作</th>
+    </tr>
+    <tr th:each="user:${userList}">
+        <td th:text="${user.name}"></td><td  th:text="${user.account}"></td>
+        <td  th:text="${user.telphone}"></td><td th:text="${user.qq}"></td>
+        <td th:text="${user.weixin}" ></td><td th:text="${user.email}"></td>
+        <td th:text="${user.address}" ></td><td th:text="${user.sex}" ></td>
+        <td  th:text="${user.birthday}"></td>
+        <td>
+            <a href="#" th:href="@{/toUserInfo(id=${user.id})}">查看</a>
+            <a href="#" th:href="@{/toUpdate(id=${user.id})}">修改</a>
+            <a href="#" th:href="@{/delUser(id=${user.id})}">删除</a>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

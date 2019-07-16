@@ -1,0 +1,15 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>修改商品类型</title>
+</head>
+<body>
+<form action="goodstypeInsert" method="post">
+    <input type="hidden" name="pid" th:value="${goodstype.id}" />
+    父类：<span th:text="${goodstype.typename}"></span><br/>
+    等级：<span th:text="${goodstype.level}"></span><br/>
+    产品类别名称：<input name="typename" th:value="${goodstype.typename}" /><br/>
+    产品类别描述：<input name="stypedesc" th:value="${goodstype.stypedesc}" /><br/>
+    <input type="submit" value="提交"/><br/>
+</form>
+</body>
+</html>
