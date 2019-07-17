@@ -36,7 +36,12 @@ public class GoodstypeService {
 
     public List<Goodstype> selectGoodstypes(Goodstype goodstype){
         GoodstypeExample goodstypeExample=new GoodstypeExample();
-        PackExample.packingExample(goodstype,goodstypeExample.createCriteria());
+        goodstypeExample.setOrderByClause("level");
+        GoodstypeExample.Criteria criteria=goodstypeExample.createCriteria();
+        if(goodstype.getTypename()!=null&&!"".equals(goodstype.getTypename()))
+            criteria.andTypenameLike("%"+goodstype.getTypename()+"%");
+        if(goodstype.getLevel()!=null)
+            criteria.andLevelEqualTo(goodstype.getLevel());
         return goodstypeMapper.selectByExample(goodstypeExample);
     }
 

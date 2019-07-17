@@ -8,6 +8,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * @author qind6
  * @date 2019/7/5
@@ -16,49 +18,51 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class GoodstypeControl {
     @Autowired
     public GoodstypeService goodstypeService;
+    @Autowired
+    public HttpServletRequest request;
 
-    @RequestMapping(value = "/toGoodstypeInsert",method = RequestMethod.GET)
-    public String toGoodstypeInsert(Integer id, Model model){
-        Goodstype goodstype=null;
-        if(id==null){
-            goodstype=new Goodstype();
-            goodstype.setId(-1);
-            goodstype.setLevel(0);
-        }else{
-            goodstype=goodstypeService.select(id);
-        }
-        model.addAttribute("goodstype",goodstype);
-        return "goodstype_add";
-    }
-
-    @RequestMapping(value = "/goodstypeInsert",method = RequestMethod.POST)
-    public String goodstypeInsert(Goodstype goodstype, Model model){
-        goodstypeService.insert(goodstype);
-        return "goodstype_add";
-    }
-
-    @RequestMapping(value = "/toGoodstypeUpdate",method = RequestMethod.GET)
-    public String toGoodstypeUpdate(Integer id, Model model){
-        model.addAttribute("goodstype",goodstypeService.select(id));
-        return "goodstype_update";
-    }
-
-    @RequestMapping(value = "/goodstypeUpdate",method = RequestMethod.POST)
-    public String goodstypeUpdate(Goodstype goodstype){
-        goodstypeService.update(goodstype);
-        return "goodstype_update";
-    }
-
-    @RequestMapping(value = "/toGoodstypes",method = RequestMethod.POST)
-    public String toGoodstypes(Goodstype goodstype,Model model){
-        model.addAttribute("goodstypesList",goodstypeService.selectGoodstypes(goodstype));
+    @RequestMapping(value ={"/goodsTypeInsert","/goodsTypeUpdate"},method = RequestMethod.POST)
+    public String goodsTypeInsert(Goodstype goodstype, Model model){
+        if(goodstype!=null&&goodstype.getId()==null)
+            goodstypeService.insert(goodstype);
+        else
+            goodstypeService.update(goodstype);
+        model.addAttribute("goodsTypesList",goodstypeService.selectGoodstypes(goodstype));
         return "goodstype_list";
     }
 
-    @RequestMapping(value = "/delGoodstype",method = RequestMethod.GET)
-    public String delGoodstype(int id,Model model){
+    @RequestMapping(value ={"/toGoodsTypeInsert", "/toGoodsTypeUpdate","/toGoodsTypeInfo"},method = RequestMethod.GET)
+    public String toGoodsTypeUpdate(Integer id,Integer pid, Model model){
+        String url=request.getServletPath();
+        String res="goodstype_add";
+        Goodstype goodstype=null;
+        if(id==null){
+            if(pid==null){
+                goodstype=new Goodstype();
+                goodstype.setId(-1);
+                goodstype.setLevel(0);
+            }else
+                goodstype=goodstypeService.select(pid);
+        }else
+            goodstype=goodstypeService.select(id);
+        model.addAttribute("goodsType",goodstype);
+        if(url.equals("/toGoodsTypeUpdate"))
+            return "goodstype_update";
+        else if(url.equals("/toGoodsTypeInfo"))
+            return "goodstype_info";
+        return res;
+    }
+
+    @RequestMapping(value = "/",method = {RequestMethod.POST,RequestMethod.GET})
+    public String toGoodsTypes(Goodstype goodstype,Model model){
+        model.addAttribute("goodsTypesList",goodstypeService.selectGoodstypes(goodstype));
+        return "goodstype_list";
+    }
+
+    @RequestMapping(value = "/delGoodsType",method = RequestMethod.GET)
+    public String delGoodsType(int id,Model model){
         goodstypeService.delGoodstype(id);
-        return toGoodstypes(new Goodstype(),model);
+        return toGoodsTypes(new Goodstype(),model);
     }
 
 }

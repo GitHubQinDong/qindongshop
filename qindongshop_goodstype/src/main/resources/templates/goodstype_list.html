@@ -3,19 +3,29 @@
     <title>商品类别列表</title>
 </head>
 <body>
-<table>
-    <tr>
-        <th>类别名称</th><th>类别描述</th><th>等级</th><th>操作</th>
-    </tr>
-    <tr th:each="type:${goodstypesList}">
-        <td th:text="${type.typename}"></td><td  th:text="${type.typedesc}"></td>
-        <td  th:text="${type.level}"></td>
-        <td>
-            <a href="#" th:href="@{/toGoodstypeInfo(id=${type.id})}">查看</a>
-            <a href="#" th:href="@{/toGoodstypeUpdate(id=${type.id})}">修改</a>
-            <a href="#" th:href="@{/delGoodstype(id=${type.id})}">删除</a>
-        </td>
-    </tr>
+<table border="1" >
+    <thead>
+        <form action="" method="post">
+            类别名称:<input name="typename" />类别等级:<input name="level" />
+            <input type="submit" value="查 询">
+        </form>
+        <tr><td><a href="#" th:href="@{/toGoodsTypeInsert}">新 增</a></td></tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th>类别名称</th><th>类别描述</th><th>等级</th><th>操作</th>
+        </tr>
+        <tr th:each="type:${goodsTypesList}">
+            <td th:text="${type.typename}"></td><td  th:text="${type.typedesc}"></td>
+            <td  th:text="${type.level}"></td>
+            <td>
+                <a href="#" th:href="@{/toGoodsTypeInfo(id=${type.id})}">查看</a>
+                <a href="#" th:href="@{/toGoodsTypeUpdate(id=${type.id})}">修改</a>
+                <a href="#" th:href="@{/toGoodsTypeInsert(pid=${type.id})}">新增</a>
+                <a href="#" th:href="@{/delGoodsType(id=${type.id})}">删除</a>
+            </td>
+        </tr>
+    </tbody>
 </table>
 </body>
 </html>
